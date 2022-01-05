@@ -6,7 +6,7 @@
 /*   By: wei.zhao <Wei.Zhao@stream_computing.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 14:36:47 by wei.zhao          #+#    #+#             */
-/*   Updated: 2022/01/05 14:42:53 by wei.zhao         ###   ########.fr       */
+/*   Updated: 2022/01/05 19:13:42 by wei.zhao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,20 +24,25 @@ struct ListNode {
 };
 
 ListNode *get_cycle_point(ListNode *list) {
-  if (list == nullptr)
-    return nullptr;
-
   ListNode *one_ptr = list;
-  ListNode *two_ptr = list->next;
-  while (one_ptr && two_ptr) {
+  ListNode *two_ptr = list;
+  do{
+    if(!(one_ptr && one_ptr))
+      return nullptr;
     if (one_ptr == two_ptr) {
-      return one_ptr;
+      break;
     } else {
       one_ptr = one_ptr->next;
       two_ptr = two_ptr->next->next;
     }
+  }while (one_ptr != two_ptr);
+  
+  one_ptr = list;
+  while(one_ptr != two_ptr){
+      one_ptr = one_ptr->next;
+      two_ptr = two_ptr->next;
   }
-  return nullptr;
+  return one_ptr;
 }
 
 int main() { return 0; }
