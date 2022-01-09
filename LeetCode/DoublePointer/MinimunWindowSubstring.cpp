@@ -6,7 +6,7 @@
 /*   By: wei.zhao <Wei.Zhao@stream_computing.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:15:19 by wei.zhao          #+#    #+#             */
-/*   Updated: 2022/01/09 17:36:40 by wei.zhao         ###   ########.fr       */
+/*   Updated: 2022/01/09 17:40:49 by wei.zhao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 #include <vector>
 using namespace std;
 
+/* 此方法没有做出，后面需要复习
+ */
 string min_window(string source, string target) {
   vector<bool> flag(128);
   vector<int> Char(128);
