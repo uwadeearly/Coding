@@ -6,13 +6,14 @@
 /*   By: wei.zhao <Wei.Zhao@stream_computing.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 19:06:01 by wei.zhao          #+#    #+#             */
-/*   Updated: 2022/01/11 19:35:18 by wei.zhao         ###   ########.fr       */
+/*   Updated: 2022/01/11 19:40:12 by wei.zhao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <algorithm>
 #include <iostream>
 #include <vector>
+#include <cstdio>
 using namespace std;
 
 float sqrt(float val) {
