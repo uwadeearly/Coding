@@ -6,7 +6,7 @@
 /*   By: wei.zhao <Wei.Zhao@stream_computing.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 19:38:49 by wei.zhao          #+#    #+#             */
-/*   Updated: 2022/01/11 20:21:20 by wei.zhao         ###   ########.fr       */
+/*   Updated: 2022/01/12 09:57:10 by wei.zhao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,13 @@ vector<int> find_first_last_position(vector<int> &inputs, int target) {
 
   return pos;
 }
+
+//low boundary function
+int lower_boundary(vector<int>& arr, int target){
+  
+}
+
+//high boundary function
 
 int main() {
   vector<int> inputs = {5, 7, 7, 8, 8, 10};
