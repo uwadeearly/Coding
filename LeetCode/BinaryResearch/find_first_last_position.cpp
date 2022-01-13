@@ -6,7 +6,7 @@
 /*   By: wei.zhao <Wei.Zhao@stream_computing.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 19:38:49 by wei.zhao          #+#    #+#             */
-/*   Updated: 2022/01/12 10:01:21 by wei.zhao         ###   ########.fr       */
+/*   Updated: 2022/01/13 10:38:59 by wei.zhao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,32 @@ vector<int> find_first_last_position(vector<int> &inputs, int target) {
 
 //bottom boundary function
 int bottom_boundary(vector<int>& arr, int target){
-  
+  int l=0, r = arr.size(), mid;
+  while(l < r){
+    mid = l + (r - l) / 2;
+    if(arr[mid] >= target){
+      r = mid;
+    }else{
+      l = mid + 1;
+    }
+  }
+  return l;
 }
 
 //up boundary function
+int up_boundary(vector<int>& arr, int target){
+  int l=0, r = arr.size(), mid;
+  while(l < r){
+    mid = l + (r - l) / 2;
+    if(arr[mid] > target){
+      r = mid;
+    }else{
+      l = mid + 1;
+    }
+  }
+  return l-1;
+}
+
 
 int main() {
   vector<int> inputs = {5, 7, 7, 8, 8, 10};
@@ -67,5 +89,10 @@ int main() {
     cout << elem << ", ";
   }
   cout << endl;
+
+  int bottom = bottom_boundary(inputs, target);
+  cout << "bottom bounary: " << bottom << endl;
+  int up = up_boundary(inputs, target);
+  cout << "up bounary: " << up << endl;
   return 0;
 }
