@@ -1,3 +1,5 @@
-## coding everything...
+# coding everything...
 
-# LeetCode
+## LeetCode
+
+## Soul of computing
