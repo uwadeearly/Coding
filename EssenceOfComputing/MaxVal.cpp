@@ -1,7 +1,7 @@
 /*
- * @Author: Micheal Enigma
+ * @Author: Michael Enigma
  * @Date: 2022-02-02 10:53:00
- * @LastEditTime: 2022-02-02 11:14:46
+ * @LastEditTime: 2022-02-04 09:30:35
  * @LastEditors: Do not edit
  * @FilePath: \Coding\SoulOfComputing\MaxVal.cpp
  * @Description: 
