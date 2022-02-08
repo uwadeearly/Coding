@@ -2,4 +2,4 @@
 
 ## LeetCode
 
-## Soul of computing
+## Essence of computing
