@@ -6,7 +6,7 @@
 /*   By: wei.zhao <Wei.Zhao@stream_computing.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/09 10:01:33 by wei.zhao          #+#    #+#             */
-/*   Updated: 2022/02/09 11:03:42 by wei.zhao         ###   ########.fr       */
+/*   Updated: 2022/02/11 10:18:59 by wei.zhao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,35 @@ int friendCircles(vector<vector<int>> inputs) {
   return friendsCir;
 }
 
+void dfs(vector<vector<int>>& inputs, int i, vector<bool>& state){
+  state[i] = true;
+  for(int j=0; j<inputs.size(); ++j){
+    if(inputs[i][j] && !state[j]){
+      dfs(inputs, j, state);
+    }
+  }
+}
+
+
+int friendCircles2(vector<vector<int>> inputs){
+  int len = inputs.size();
+  vector<bool> state(len, false);
+  int friendsCir = 0;
+  
+  for(int i=0; i<len; ++i){
+    if(!state[i]){
+      dfs(inputs, i, state);
+      friendsCir++;
+    }  
+  }
+  return friendsCir;
+  
+}
+
+
 int main() {
   vector<vector<int>> inputs = {{1, 1, 0}, {1, 1, 0}, {0, 0, 1}};
-  int ret = friendCircles(inputs);
+  int ret = friendCircles2(inputs);
   cout << "ret: " << ret << endl;
   return 0;
 }
