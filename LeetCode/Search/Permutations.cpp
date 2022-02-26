@@ -6,7 +6,7 @@
 /*   By: wei.zhao <Wei.Zhao@stream_computing.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 20:34:40 by wei.zhao          #+#    #+#             */
-/*   Updated: 2022/02/23 21:08:35 by wei.zhao         ###   ########.fr       */
+/*   Updated: 2022/02/24 21:00:09 by wei.zhao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,10 @@ void backtracking(vector<int> &arr, int level, vector<vector<int>> &ans) {
 
   for (int i = level; i < arr.size(); ++i) {
     swap(arr[i], arr[level]);
-    backtracking(arr, level+1, ans);
+    backtracking(arr, level + 1, ans);
     swap(arr[i], arr[level]);
   }
 }
-
 
 vector<vector<int>> permutations(vector<int> &arr) {
   vector<vector<int>> ans;
@@ -37,14 +36,15 @@ vector<vector<int>> permutations(vector<int> &arr) {
   return ans;
 }
 
-
 int main() {
   vector<int> inputs = {1, 2, 3};
   vector<vector<int>> ret = permutations(inputs);
-  int len = inputs.size();
-  for (int i = 0; i < len; ++i) {
+  int rows = ret.size();
+  int cols = ret[0].size();
+  
+  for (int i = 0; i < rows; ++i) {
     cout << "[";
-    for (int j = 0; j < len; ++j) {
+    for (int j = 0; j < cols; ++j) {
       cout << ret[i][j] << ", ";
     }
     cout << "]" << endl;
