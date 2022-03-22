@@ -6,12 +6,13 @@
 /*   By: wei.zhao <Wei.Zhao@stream_computing.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 10:01:39 by wei.zhao          #+#    #+#             */
-/*   Updated: 2022/03/16 10:05:43 by wei.zhao         ###   ########.fr       */
+/*   Updated: 2022/03/16 10:07:11 by wei.zhao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 using namespace std;
+/* 一个自然数二进制中1的个数*/
 
 int get_one_n(int num) {
   int count = 0;
