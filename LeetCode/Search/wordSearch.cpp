@@ -6,7 +6,7 @@
 /*   By: wei.zhao <Wei.Zhao@stream_computing.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/20 10:29:26 by wei.zhao          #+#    #+#             */
-/*   Updated: 2022/03/22 10:23:56 by wei.zhao         ###   ########.fr       */
+/*   Updated: 2022/03/22 14:14:35 by wei.zhao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ using namespace std;
  */
 
 void in_search(vector<vector<char>> &mat_char, vector<vector<bool>> &state,
-               const string str, int i, int j, bool& ret) {
+               const string str, int i, int j, bool &ret) {
   static int count = 0;
   int rows = mat_char.size();
   int cols = mat_char[0].size();
 
-  if (i >= rows || j >= cols) {
+  if (i >= rows || j >= cols || i < 0 || j < 0) {
     return;
   }
 
@@ -45,7 +45,7 @@ void in_search(vector<vector<char>> &mat_char, vector<vector<bool>> &state,
   if (state[i][j] || mat_char[i][j] != str[count]) {
     return;
   }
-  
+
   state[i][j] = true;
   if (mat_char[i][j] == str[count]) {
     ++count;
@@ -77,7 +77,7 @@ bool word_seach(vector<vector<char>> &mat_char, const string str) {
 int main() {
   string inputs = "ABCCED";
   vector<vector<char>> mat_char = {
-      {'A', 'B', 'C', 'E'}, {'S', 'F', 'C', 'S'}, {'A', 'D', 'E', 'E'}};
+      {'C', 'B', 'A', 'E'}, {'S', 'F', 'C', 'S'}, {'A', 'D', 'E', 'E'}};
 
   int rows = mat_char.size();
   int cols = mat_char[0].size();
