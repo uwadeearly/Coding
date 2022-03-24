@@ -6,7 +6,7 @@
 /*   By: wei.zhao <Wei.Zhao@stream_computing.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 10:56:44 by wei.zhao          #+#    #+#             */
-/*   Updated: 2022/03/24 10:27:36 by wei.zhao         ###   ########.fr       */
+/*   Updated: 2022/03/24 10:51:02 by wei.zhao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,19 +24,19 @@ void back_tracking(vector<vector<string>> &ans, vector<string> &board,
   }
 
   for (int i = 0; i < n; ++i) {
-    if (columns[i] || ldiag[n - row + i - 1] || rdiag[row + i + 1]) {
+    if (columns[i] || ldiag[n - row + i - 1] || rdiag[row + i]) {
       continue;
     }
     columns[i] = true;
     ldiag[n - row + i - 1] = true;
-    rdiag[row + i + 1] = true;
+    rdiag[row + i] = true;
     board[row][i] = 'Q';
 
     back_tracking(ans, board, columns, ldiag, rdiag, row + 1, n);
 
     columns[i] = false;
     ldiag[n - row + i - 1] = false;
-    rdiag[row + i + 1] = false;
+    rdiag[row + i] = false;
     board[row][i] = '.';
   }
 }
