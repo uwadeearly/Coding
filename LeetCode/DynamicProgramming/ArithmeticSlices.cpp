@@ -6,7 +6,7 @@
 /*   By: wei.zhao <Wei.Zhao@stream_computing.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 19:45:20 by wei.zhao          #+#    #+#             */
-/*   Updated: 2022/04/15 19:49:09 by wei.zhao         ###   ########.fr       */
+/*   Updated: 2022/04/18 14:51:43 by wei.zhao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,27 @@ using namespace std;
  * Input: nums = [1,2,3,4]
  * Output: 3
  * 在这个样例中，等差数列有[1,2,3]、[2,3,4] 和[1,2,3,4]
-*/
+ */
 
-int arithmetic_slices(vector<int>& inputs){
+int arithmetic_slices(vector<int> &inputs) {
   int len = inputs.size();
-  if(len < 3) return 0;
+  if (len < 3)
+    return 0;
+  if (len == 3)
+    return 1;
+  int count = 0;
 
-  
+  for (int i = 2; i < len; ++i) {
+    if (inputs[i] - inputs[i - 1] == inputs[i - 1] - inputs[i - 2])
+      count += i - 1;
+  }
+  return count;
 }
 
-int main(){
+int main() {
+  vector<int> nums = {1, 2, 3, 4, 5};
+  int res = arithmetic_slices(nums);
+  cout << "result: " << res << endl;
+
   return 0;
 }
