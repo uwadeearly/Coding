@@ -3,59 +3,53 @@
  * Path: /home/wei.zhao/cpp_code/Coding/AlphaPhi/operation
  * Created Date: Saturday, June 25th 2022, 9:41:08 am
  * Author: Zhao Wei
- * 
+ *
  * Copyright (c) 2022 The StreamComputing Inc
  */
 
 #ifndef OPERATION_HPP
 #define OPERATION_HPP
-#include "../Tensor.hpp"
 #include <exception>
 
+#include "../Tensor.hpp"
 
-template<typename T>
-void dot(Tensor<T>& dst, Tensor<T>& left, Tensor<T>& right){
+template <typename T>
+void dot(Tensor<T>& dst, Tensor<T>& left, Tensor<T>& right) {}
 
-}
+template <typename T>
+void conv2d(Tensor<T>& dst, Tensor<T>& featMap, Tensor<T>& kernel) {}
 
-template<typename T>
-void conv2d(Tensor<T>& dst, Tensor<T>& featMap, Tensor<T>&kernel){
+template <typename T>
+void bn(Tensor<T>& dst, Tensor<T>& featMap) {}
 
-}
+template <typename T>
+void relu(Tensor<T>& dst, Tensor<T>& featMap) {}
 
-template<typename T>
-void bn(Tensor<T>&dst, Tensor<T>& featMap){
+template <typename T>
+void softmax(Tensor<T>& dst, Tensor<T>& featMap) {}
 
-}
+template <typename T>
+void conv2dTranspose(Tensor<T>& dst, Tensor<T>& featMap, Tensor<T>& kernel) {}
 
-template<typename T>
-void relu(Tensor<T>& dst, Tensor<T>& featMap){
+template <typename T>
+void transpose2D(Tensor<T>& dst, Tensor<T>& src) {
+  auto outShape = dst.getShape();
+  auto inShape src.getShape();
+  size_t outSize = dst.getSize();
+  size_t inSize = src.getSize();
 
-}
+  if (inShape.getSize() != outShape.getSize() || inSize != outSize) {
+    throw std::length_error("two tensor shape is not eq...");
+  }
 
-template<typename T>
-void softmax(Tensor<T>& dst, Tensor<T>& featMap){
+  size_t rows = inShape[0];
+  size_t cols = inShape[1];
 
-}
-
-template<typename T>
-void conv2dTranspose(Tensor<T>&dst, Tensor<T>& featMap, Tensor<T>& kernel){
-
-}
-
-template<typename T>
-void transpose(Tensor<T>& dst, Tensor<T>& src){
-  auto inShape = dst.getShape();
-  auto outShape src.getShape();
-  size_t inSize = dst.getSize();
-  size_t outSize = src.getSize();
-
-  if(inShape.getSize() != outShape.getSize() || inSize != outSize){
-      throw std::length_error("two tensor shape is not eq...");
+  for (size_t i = 0; i < rows; ++i) {
+    for (size_t j = 0; j < cols; ++j) {
+      dst[j * rows + i] = src[i * cols + j];
     }
-
-  
-
+  }
 }
 
 #endif
