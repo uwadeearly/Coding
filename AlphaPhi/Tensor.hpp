@@ -8,12 +8,14 @@
  */
 #ifndef TENSOR_HPP
 #define TENSOR_HPP
+#include <array>
 #include <exception>
 #include <iostream>
 #include <memory>
 #include <string>
 #include <vector>
 
+namespace alphaphi {
 class SmallVec {
  public:
   SmallVec() {
@@ -24,6 +26,7 @@ class SmallVec {
   void resize(int newSize) {
     if (newSize <= size) {
       size = newSize;
+      data = new int[newSize];
     } else {
       auto tmpPtr = std::make_unique<int[]>(newSize);
       for (int i = 0; i < newSize; ++i) {
@@ -35,9 +38,17 @@ class SmallVec {
     }
   }
 
-  size_t getSize(){return size;}
+  size_t getSize() { return size; }
 
   int& operator[](int index) {
+    if (index < size) {
+      return data[index];
+    } else {
+      throw std::out_of_range("index out range...");
+    }
+  }
+
+  const int& operator[](int index) const {
     if (index < size) {
       return data[index];
     } else {
@@ -56,42 +67,116 @@ class SmallVec {
 template <typename T>
 class Tensor {
  public:
-  Tensor(std::initializer_list arr) {
+  Tensor(std::initializer_list<int> arr) {
     is_allocate = true;
-    size = 1;
-    for (auto iter = arr.begin(); iter < arr.end(); ++iter) {
-      size *= (*iter);
-    }
-    data = new T[size];
+    setSizeShape(arr);
+    dataT = new T[size];
   }
 
-  Tensor(T* data, std::initializer_list arr) : dataT(data), Tensor(arr){};
+  Tensor(T* data, std::initializer_list<int> arr) : dataT(data) {
+    setSizeShape(arr);
+  };
 
   ~Tensor() {
     if (is_allocate) delete[] dataT;
   }
 
-  Tensor(const Tensor<T>& rSource) {}
+  Tensor(const Tensor<T>& rSource) {
+    size = rSource.size;
+    dataT = new T[size];
+    for (int i = 0; i < size; ++i) {
+      dataT[i] = rSource.dataT[i];
+    }
 
-  Tensor& operator=(const Tensor<T>& rSource) {}
-
-  size_t getSize() { return size; }
-
-  SmallVec getShape() { return shape; }
-
-  void rehsape(){
-    
+    is_allocate = true;
+    for (int i = 0; i < rSource.shape.size(); ++i) {
+      shape[i] = rSource.shape[i];
+    }
   }
 
+  Tensor& operator=(const Tensor<T>& rSource) {
+    if (size == rSource.size) {
+      for (int i = 0; i < size; ++i) {
+        dataT[i] = rSource.dataT[i];
+      }
+    }
+  }
+
+  size_t getSize() const { return size; }
+
+  std::array<int, 5> getShape() const { return shape; }
+
+  size_t getDims() const { return dims; }
+
+  void rehsape(std::initializer_list<int> arr) {
+    size_t newSize = 1;
+    for (auto iter = arr.begin(); iter != arr.end(); ++iter) {
+      newSize *= (*iter);
+    }
+
+    if (newSize == size) {
+      shape = arr;
+    } else {
+      throw std::invalid_argument("two shape is not equ, reshape bad!\n");
+    }
+  }
+
+  T& operator()(size_t dim0 = 0, size_t dim1 = 0, size_t dim2 = 0,
+                size_t dim3 = 0, size_t dim4 = 0) {
+    size_t index = dim0 * shape[1] * shape[2] * shape[3] * shape[4] +
+                   dim1 * shape[2] * shape[3] * shape[4] +
+                   dim2 * shape[3] * shape[4] + dim3 * shape[4] + dim4;
+    return dataT[index];
+  }
+
+  const T& operator()(size_t dim0 = 1, size_t dim1 = 1, size_t dim2 = 1,
+                      size_t dim3 = 1, size_t dim4 = 1) const {
+    size_t index = dim0 * shape[1] * shape[2] * shape[3] * shape[4] +
+                   dim1 * shape[2] * shape[3] * shape[4] +
+                   dim2 * shape[3] * shape[4] + dim3 * shape[4] + dim4;
+    return dataT[index];
+  }
+  T& operator[](size_t index) { return dataT[index]; }
+  const T& operator[](size_t index) const { return dataT[index]; }
+
   template <typename Type>
-      friend std::ostream& opterator
-      << (std::ostream & os, const Tensor<Type>& source);
+  friend std::ostream& operator<<(std::ostream& os, const Tensor<Type>& source);
 
  private:
-  size_t size;
-  SmallVec shape;
+  size_t size = 0;
+  std::array<int, 5> shape = {1, 1, 1, 1, 1};
+  size_t dims = 0;
   T* dataT;
   bool is_allocate = false;
+
+  void setSizeShape(std::initializer_list<int>& arr) {
+    size_t i = 0;
+    size = 1;
+    for (auto iter = arr.begin(); iter != arr.end(); ++iter, ++i) {
+      size *= (*iter);
+#if 0
+std::cout << (*iter) << std::endl;
+#endif
+      shape[i] = (*iter);
+      dims++;
+    }
+  }
 };
+
+template <typename T>
+std::ostream& operator<<(std::ostream& os, const Tensor<T>& source) {
+  auto shape = source.getShape();
+  size_t size = source.getSize();
+  size_t dims = source.getDims();
+
+  for (int i = 0; i < size; ++i) {
+    os << source[i] << ", ";
+    if ((i + 1) % shape[dims - 1] == 0) {
+      os << std::endl;
+    }
+  }
+  os << std::endl;
+}
+}  // namespace alphaphi
 
 #endif

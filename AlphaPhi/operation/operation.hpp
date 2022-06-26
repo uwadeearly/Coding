@@ -38,7 +38,7 @@ void transpose2D(Tensor<T>& dst, Tensor<T>& src) {
   size_t outSize = dst.getSize();
   size_t inSize = src.getSize();
 
-  if (inShape.getSize() != outShape.getSize() || inSize != outSize) {
+  if (inShape.size() != outShape.size() || inSize != outSize) {
     throw std::length_error("two tensor shape is not eq...");
   }
 
