@@ -10,10 +10,13 @@
 #define TENSOR_HPP
 #include <array>
 #include <exception>
+#include <functional>
 #include <iostream>
 #include <memory>
+#include <numeric>
 #include <string>
 #include <vector>
+#include <algorithm>
 
 namespace alphaphi {
 class SmallVec {
@@ -109,13 +112,11 @@ class Tensor {
   size_t getDims() const { return dims; }
 
   void rehsape(std::initializer_list<int> arr) {
-    size_t newSize = 1;
-    for (auto iter = arr.begin(); iter != arr.end(); ++iter) {
-      newSize *= (*iter);
-    }
+    size_t newSize =
+        std::accumulate(arr.begin(), arr.end(), 1, std::multiplies<int>());
 
     if (newSize == size) {
-      shape = arr;
+      std::copy(arr.begin(), arr.end(), shape.begin());
     } else {
       throw std::invalid_argument("two shape is not equ, reshape bad!\n");
     }

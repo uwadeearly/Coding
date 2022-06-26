@@ -33,12 +33,7 @@ void conv2dTranspose(Tensor<T>& dst, Tensor<T>& featMap, Tensor<T>& kernel) {}
 
 template <typename T>
 void transpose2D(Tensor<T>& dst, Tensor<T>& src) {
-  auto outShape = dst.getShape();
-  auto inShape src.getShape();
-  size_t outSize = dst.getSize();
-  size_t inSize = src.getSize();
-
-  if (inShape.size() != outShape.size() || inSize != outSize) {
+  if (src.getDims() != dst.getDims() || src.getSize() != dst.getSize()) {
     throw std::length_error("two tensor shape is not eq...");
   }
 

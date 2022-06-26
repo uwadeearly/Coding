@@ -16,9 +16,11 @@ int main(){
 
   alphaphi::Tensor<float> tensor({2, 4});
   size_t size =tensor.getSize();
-  tensor(0, 2) = 5;
+  tensor(0, 2) = 5.4;
   std::cout << "size: "<< size << std::endl;
   std::cout << "dims: " << tensor.getDims() << std::endl;
+  std::cout << tensor << std::endl;
+  tensor.rehsape({4, 2});
   std::cout << tensor << std::endl;
   return 0;
 }
