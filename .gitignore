@@ -1,3 +1,5 @@
 ./main
 *.out
 Test
+AlphaPhi/build
+AlphaPhi/test/build
