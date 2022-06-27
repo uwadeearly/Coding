@@ -10,8 +10,9 @@
 #ifndef OPERATION_HPP
 #define OPERATION_HPP
 #include <exception>
-
-#include "../Tensor.hpp"
+#include <functional>
+#include <cmath>
+#include "Tensor.hpp"
 
 template <typename T>
 void dot(Tensor<T>& dst, Tensor<T>& left, Tensor<T>& right) {}
@@ -44,6 +45,28 @@ void transpose2D(Tensor<T>& dst, Tensor<T>& src) {
     for (size_t j = 0; j < cols; ++j) {
       dst[j * rows + i] = src[i * cols + j];
     }
+  }
+}
+
+template <typename T>
+void binaryOp(Tensor<T>& dst, Tensor<T>& left, Tensor<T>& right,
+              std::function<T(T, T)> func) {
+  size_t lSize = left.getSize();
+  size_t rSize = right.getSize();
+  if (lSize == rSize) {
+    for(int i=0; i<lSize; ++i){
+      dst[i] = func(left[i], right[i]);
+    }
+  }else{
+    throw std::length_error("two tenosr size not eq...");
+  }
+}
+
+template <typename T>
+void unaryOp(Tensor<T>& dst, Tensor<T>& src, std::func<T(T)> func) {
+  size_t inSize = src.getSize();
+  for(int i=0; i<inSize; ++i){
+    dst[i] = func(src[i]);
   }
 }
 
