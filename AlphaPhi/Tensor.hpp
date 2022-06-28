@@ -8,6 +8,7 @@
  */
 #ifndef TENSOR_HPP
 #define TENSOR_HPP
+#include <algorithm>
 #include <array>
 #include <exception>
 #include <functional>
@@ -16,7 +17,6 @@
 #include <numeric>
 #include <string>
 #include <vector>
-#include <algorithm>
 
 namespace alphaphi {
 class SmallVec {
@@ -80,8 +80,20 @@ class Tensor {
     setSizeShape(arr);
   };
 
-  ~Tensor() {
-    if (is_allocate) delete[] dataT;
+  Tensor(size_t len): size(len){
+    dataT = new T[len];
+    is_abstract = true;
+    shape[0] = len;
+    dims = 1;
+  }
+
+  ~Tensor() { del(); }
+
+  void del() {
+    if (is_allocate) {
+      delete[] dataT
+    };
+    is_allocate = false;
   }
 
   Tensor(const Tensor<T>& rSource) {
@@ -110,10 +122,17 @@ class Tensor {
   std::array<int, 5> getShape() const { return shape; }
 
   size_t getDims() const { return dims; }
+  T* getPtr(size_t index) {
+    if (index < size) {
+      return dataT + index;
+    } else {
+      return nullptr;
+    }
+  }
 
   void rehsape(std::initializer_list<int> arr) {
     size_t newSize =
-        std::accumulate(arr.begin(), arr.end(), 1, std::multiplies<int>());
+        std::accumulate(arr.begin(), arr.end(), 1, std::multiplies<>());
 
     if (newSize == size) {
       std::copy(arr.begin(), arr.end(), shape.begin());

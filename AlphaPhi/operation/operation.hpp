@@ -50,7 +50,7 @@ void dot(Tensor<T>& dst, Tensor<T>& left, Tensor<T>& right) {
 
     for (size_t i = 0; i < m; ++i) {
       for (size_t j = 0; j < k; ++j) {
-        size_t tmp = 0;
+        T tmp = 0;
         for (size_t q = 0; q < n; ++q) {
           tmp += left[i * n + q] * right(q * n + j);
         }
@@ -64,16 +64,111 @@ void dot(Tensor<T>& dst, Tensor<T>& left, Tensor<T>& right) {
 
 template <typename T>
 void conv2d(Tensor<T>& dst, Tensor<T>& featMap, Tensor<T>& kernel,
-            size_t stride, size_t padding) {}
+            size_t stride) {
+  auto outShape = dst.getShape();
+  auto inShape = featMap.getShape();
+  size_t batch = outShape[0];
+  size_t outH = outShape[1];
+  size_t outW = outShape[2];
+  size_t outC = outShape[3];
+
+  size_t inH = inShape[1];
+  size_t inW = inShape[2];
+  size_t inC = inShape[3];
+
+  auto krShape = kernel.getShape();
+  size_t kH = krShape[0];
+  size_t kW = krShape[1];
+  size_t inC = krShape[2];
+  size_t outC = krShape[3];
+
+  for (int n = 0; n < batch; ++n) {
+    for (int h = 0; h < outH; ++h) {
+      for (int w = 0; w < outW; ++w) {
+        for (int c = 0; c < outC; ++c) {
+          T tmp = 0;
+          for (int kh = 0; kh < kH; ++kh) {
+            for (int kw = 0; kw < kW; ++kw) {
+              for (int cin = 0; cin < inC; ++cin) {
+                // multipy and add
+                size_t featIndex = n * inH * inW * inC +
+                                   (h * stride + kh) * inW * inC +
+                                   (w * stride + kw) * outC + cin;
+                size_t kernelIndex =
+                    kh * kW * inC * outC + kw * inC * outC + cin * outC + c;
+                tmp += featMap[featIndex] * kernel[kernelIndex];
+              }
+            }
+          }
+
+          size_t outIndex =
+              n * outH * outW * outC + h * outW * outC + w * outC + c;
+          dst[outIndex] = tmp;
+        }
+      }
+    }
+  }
+}
 
 template <typename T>
-void bn(Tensor<T>& dst, Tensor<T>& featMap) {}
+T mean(Tensor<T>& featMap) {
+  T mean = 0;
+  size_t size = featMap.getSize();
+  for (int i = 0; i < size; ++i) {
+    mean += featMap[i];
+  }
+  return mean / size;
+}
 
 template <typename T>
-void relu(Tensor<T>& dst, Tensor<T>& featMap) {}
+T variance(Tensor<T>& featMap) {
+  T var = 0;
+  size_t size = featMap.getSize();
+  for (int i = 0; i < size; ++i) {
+    var += std::pow(featMap[i], 2);
+  }
+  return var;
+}
 
 template <typename T>
-void softmax(Tensor<T>& dst, Tensor<T>& featMap) {}
+void relu(Tensor<T>& dst, Tensor<T>& featMap) {
+  auto reluFunc = [](T x) {
+    if (x > 0) {
+      return x;
+    } else {
+      return 0;
+    }
+  };
+  unaryOp<T>(dst, featMap, reluFunc);
+}
+
+template <typename T>
+void softmax(Tensor<T>& dst, Tensor<T>& featMap) {
+  auto shape = featMap.getShape();
+  size_t rows = shape[0];
+  size_t cols = shape[1];
+  Tensor<T> tmp(rows);
+
+  for (int i = 0; i < rows; ++i) {
+    T max = featMap[i * cols];
+    tmp[i] = 0;
+    for (int j = 0; j < cols; ++j) {
+      if (max < featMap[i * cols + j]) {
+        max = featMap[i * cols + j];
+      }
+    }
+
+    for (int j = 0; j < cols; ++j) {
+      T expVal = std::exp(featMap[i * cols + j] - max);
+      tmp[i] += expVal; 
+      dst[i*cols +j] = expVal;
+    }
+
+    for(int j=0; j<clos; ++j){
+      dst[i*cols +j] /= tmp[i];
+    }
+  }
+}
 
 template <typename T>
 void conv2dTranspose(Tensor<T>& dst, Tensor<T>& featMap, Tensor<T>& kernel) {}
