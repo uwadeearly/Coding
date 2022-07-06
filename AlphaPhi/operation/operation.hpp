@@ -51,6 +51,7 @@ void dot(Tensor<T>& dst, Tensor<T>& left, Tensor<T>& right) {
     for (size_t i = 0; i < m; ++i) {
       for (size_t j = 0; j < k; ++j) {
         T tmp = 0;
+        //TODO std::inner_product();
         for (size_t q = 0; q < n; ++q) {
           tmp += left[i * n + q] * right(q * n + j);
         }
@@ -121,13 +122,13 @@ T mean(Tensor<T>& featMap) {
 }
 
 template <typename T>
-T variance(Tensor<T>& featMap) {
+T variance(Tensor<T>& featMap, T mean) {
   T var = 0;
   size_t size = featMap.getSize();
   for (int i = 0; i < size; ++i) {
-    var += std::pow(featMap[i], 2);
+    var += std::pow(featMap[i] - mean, 2);
   }
-  return var;
+  return var / size;
 }
 
 template <typename T>
@@ -200,6 +201,7 @@ void transpose2D(Tensor<T>& src) {
       std::swap(src[j * rows + i], src[i * cols + j]);
     }
   }
+  src.rehape({cols, rows});
 }
 
 }  // namespace alphaphi

@@ -20,7 +20,7 @@ int main(){
   std::cout << "size: "<< size << std::endl;
   std::cout << "dims: " << tensor.getDims() << std::endl;
   std::cout << tensor << std::endl;
-  tensor.rehsape({4, 2});
+  tensor.reshape({4, 2});
   std::cout << tensor << std::endl;
   return 0;
 }

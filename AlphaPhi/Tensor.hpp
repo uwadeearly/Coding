@@ -130,7 +130,7 @@ class Tensor {
     }
   }
 
-  void rehsape(std::initializer_list<int> arr) {
+  void reshape(std::initializer_list<int> arr) {
     size_t newSize =
         std::accumulate(arr.begin(), arr.end(), 1, std::multiplies<>());
 
