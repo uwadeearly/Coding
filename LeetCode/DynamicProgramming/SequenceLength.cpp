@@ -71,7 +71,7 @@ int SequenLen2(vector<int>& nums){
 
 int main(){
 
-  vector<int> nums = {3, 100, 200, 4, 2, 1};
+  vector<int> nums = {3, 5, 100, 6, 200, 4, 2, 1};
   // int length = SequenLen(nums);
   int length = SequenLen2(nums);
   cout << "sub sequence length: " << length << endl;

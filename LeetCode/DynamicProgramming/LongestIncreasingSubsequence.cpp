@@ -27,10 +27,10 @@ int longest_increasing_nums(vector<int> &inputs) {
   }
 
   for (int i = 1; i < len; ++i) {
-    if (inputs[i] > inputs[i - 1]) {
-      dp[i] = dp[i - 1] + 1;
-    } else {
-      dp[i] = dp[i - 1];
+    for (int j = 0; j < i; ++j) {
+      if (inputs[i] > inputs[j]) {
+        dp[i] = std::max(dp[i], dp[j]+1);
+      } 
     }
   }
 
@@ -38,12 +38,13 @@ int longest_increasing_nums(vector<int> &inputs) {
     cout << elem << ", ";
   }
   cout << endl;
-  return dp[len - 1];
+
+  int ret = dp[len-1];
+  return ret;
 }
 
 int main() {
-
-  vector<int> inputs = {10, 9, 2, 5, 3, 4, 7, 19, 17, 18};
+  vector<int> inputs = {10, 9, 3, 5, 1, 1, 6};
   int ret = longest_increasing_nums(inputs);
   cout << "result: " << ret << endl;
   return 0;
