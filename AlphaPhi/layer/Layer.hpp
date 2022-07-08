@@ -37,34 +37,60 @@ public:
 template <typename T>
 class DenseLayer : public BaseLayer<T> {
 public:
-  DenseLayer(size_t inShape, std::string name=nullptr){
-    name = "dense_layer";
+  DenseLayer(size_t inFeat, size_t outFeat, std::string name=nullptr){
+    if(!name){
+      name = "DenseLayer";
+    } 
+    weights = std::make_unique<Tensor<T>>({inFeat, outFeat});
+    bias = std::make_unique<Tensor<T>>({outFeat});
   }
-  virtual ~DenseLayer(){
+  virtual ~DenseLayer(){}
 
+  DenseLayer(DenseLayer<T>& rSrc) = delete;
+  DenseLayer<T>& operator=(DenseLayer<T>& rSrc) = delete;
+
+  virtual void build(size_t, inFeat, size_t outFeat){
+    setWeights(weights);
   }
 
-  virtual build(){
-
+  virtual void forward(Tensor<T>& inputs){
+    //TODO
   }
-  virtual forward(Tensor<T>& inputs){}
-  virtual backward(Tensor<T>& delta){}
+  virtual void backward(Tensor<T>& delta){
+    //TODO
+  }
 
-  virtual Tensor<T>& getWeights(){
+  Tensor<T>& getWeights(){
     return weights.get();
   }
 
+  void setWeights(std::unique_ptr<Tensor<T>> weights){
+    //TODO
+  }
+
+
+  void setBias(std::unique_ptr<Tensor<T>> bias){}
+  virtual Tensor<T>& getBias(){
+    return bias.get();
+  }
+
 private:
-  std::name;
+  std::name = "DenseLayer";
   size_t inShape;
   std::unique_ptr<Tensor<T>> weights;
+  std::unique_ptr<Tensor<T>> bias;
 };
 
 template <typename T>
-class ConvLayer : public BaseLayer<T> {};
+class Conv2DLayer : public BaseLayer<T> {
+public:
 
-template <typename T>
-class Conv2DLayer : public Conv {};
+private:
+  std::name = "Conv2dLayer";
+  std::unique_ptr<Tensor<T>> kernel;
+  std::unique_ptr<Tensor<T>> bias;
+};
+
 
 template <typename T>
 class ReluLayer : public BaseLayer<T> {};
