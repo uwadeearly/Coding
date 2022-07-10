@@ -33,8 +33,8 @@ class Model {
 
  private:
   vector<LayerPtr> layers;
-  std::unique_ptr<Tensor<T>> inputs;
-  std::unique_ptr<Tensor<T>> outputs;
+  tensorPrt inputs;
+  tensorPrt outputs;
 };
 }  // namespace alphaphi
 
