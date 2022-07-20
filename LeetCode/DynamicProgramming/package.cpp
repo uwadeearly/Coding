@@ -22,14 +22,15 @@ int solution(vector<int>& pkgValues, vector<int>& pkgWeights,
   int pkgNums = pkgValues.size();
   vector<vector<int>> dp(pkgNums + 1, vector<int>(totalWeights + 1, 0));
 
-  for(int i=1; i<pkgNums; ++i){
-    for(int j=1; j<totalWeights+1; ++j){
-      int v = pkgValues[i-1];
-      int w = pkgWeights[j-1];
-      if(j > w){
-        dp[i][j] = max(dp[i-1][j], dp[i][j] + v);
-      }else{
-        dp[i][j] = dp[i-1][j];
+  for (int i = 1; i < pkgNums + 1; ++i) {
+    int v = pkgValues[i - 1];
+    int w = pkgWeights[i - 1];
+
+    for (int j = 1; j < totalWeights + 1; ++j) {
+      if (j > w) {
+        dp[i][j] = max(dp[i - 1][j], dp[i-1][j-w] + v);
+      } else {
+        dp[i][j] = dp[i - 1][j];
       }
     }
   }

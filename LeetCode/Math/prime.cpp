@@ -15,6 +15,7 @@ int countPrime(int nums) {
   if (nums <= 2) return 0;
   vector<bool> prime(nums, true);
   int count = nums - 2;
+
   for (int i = 2; i <= nums; ++i) {
     if (prime[i]) {
       for (int j = 2 * i; j < nums; j += i) {
@@ -25,6 +26,7 @@ int countPrime(int nums) {
       }
     }
   }
+  
   return count;
 }
 

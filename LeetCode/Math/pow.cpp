@@ -12,15 +12,16 @@
 double pow(double x, int n) {
   if(n==0) return 1.0;
 
-  double ret = 1;
+  double ret = 1.0;
+  double tmp = x;
   for (int i = n; i > 0; i /= 2) {
-    ret *= ret;
-    if (i % 2 != 0) ret *= x;
+    if (i % 2 != 0) ret *= tmp;
+    tmp *= tmp;
   }
   return n > 0 ? ret : 1.0 / ret;
 }
 
 int main(){
-  double ret = pow(2.0, 7);
-  printf("result: %.3f", ret);
+  double ret = pow(2.0, 3);
+  printf("result: %.3f\n", ret);
 }
