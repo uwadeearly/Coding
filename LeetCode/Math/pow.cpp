@@ -22,6 +22,6 @@ double pow(double x, int n) {
 }
 
 int main(){
-  double ret = pow(2.0, 3);
+  double ret = pow(2.0, 4);
   printf("result: %.3f\n", ret);
 }
