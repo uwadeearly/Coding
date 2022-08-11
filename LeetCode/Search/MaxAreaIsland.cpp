@@ -25,13 +25,13 @@ using namespace std;
  * Output: 6
  */
 
-int maxAreaIsland(vector<vector<int>> &inputs) {
+int maxAreaIsland(vector<vector<int>>& inputs) {
   stack<pair<int, int>> island;
   int rows = inputs.size();
   int cols = inputs[0].size();
   vector<int> direction = {-1, 0, 1, 0, -1};
   int max_area = 0;
-  
+
   for (int i = 0; i < rows; ++i) {
     for (int j = 0; j < cols; ++j) {
       if (inputs[i][j]) {
@@ -59,11 +59,41 @@ int maxAreaIsland(vector<vector<int>> &inputs) {
   return max_area;
 }
 
+int dfs(vector<vector<int>>& inputs, const int rows, const int cols, int m,
+        int n) {
+  if (m >= rows || n >= cols || m < 0 || n < 0 || inputs[m][n] == 0) {
+    return 0;
+  } else {
+    inputs[m][n] = 0;
+
+    return 1 + dfs(inputs, rows, cols, m, n - 1) +
+           dfs(inputs, rows, cols, m - 1, n) +
+           dfs(inputs, rows, cols, m + 1, n) +
+           dfs(inputs, rows, cols, m, n + 1);
+  }
+}
+
+int solution(vector<vector<int>>& inputs) {
+  int rows = inputs.size();
+  int cols = inputs[0].size();
+  int maxArea = 0;
+
+  for (int i = 0; i < rows; ++i) {
+    for (int j = 0; j < cols; ++j) {
+      int area = dfs(inputs, rows, cols, i, j);
+      maxArea = max(maxArea, area);
+      cout << "maxArea: " << maxArea << endl;
+    }
+  }
+  return maxArea;
+}
+
 int main() {
   vector<vector<int>> inputs = {{1, 0, 1, 1, 0, 1, 0, 1},
                                 {1, 0, 1, 1, 0, 1, 1, 1},
                                 {0, 0, 0, 0, 0, 0, 0, 1}};
-  int ret = maxAreaIsland(inputs);
+  // int ret = maxAreaIsland(inputs);
+  int ret = solution(inputs);
   cout << "max island: " << ret << endl;
   return 0;
 }
