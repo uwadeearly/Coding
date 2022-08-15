@@ -46,16 +46,16 @@ int top_k_(vector<int> &arr, int left, int right, int k) {
     }
     arr[i] = arr[j];
 
-    while (i < j && base < arr[i]) {
+    while (i < j && base <= arr[i]) {
       ++i;
     }
     arr[j] = arr[i];
   }
   arr[i] = base;
-  
-  if (k-1 == i) {
+
+  if (k - 1 == i) {
     return arr[i];
-  } else if (k-1 > i) {
+  } else if (k - 1 > i) {
     ret = top_k_(arr, i + 1, right, k);
   } else {
     ret = top_k_(arr, left, i - 1, k);
@@ -64,11 +64,11 @@ int top_k_(vector<int> &arr, int left, int right, int k) {
 }
 
 int main() {
-  vector<int> arr = {3, 2, 1, 5, 6, 4};
+  vector<int> arr = {3,2,3,1,2,4,5,5,6};
   // int ret = top_k_num(arr, 2);
-  int ret = top_k_(arr, 0, 5, 2);
+  int ret = top_k_(arr, 0, arr.size()-1, 4);
   cout << "result: " << ret << endl;
-  for(auto& elem: arr){
+  for (auto &elem : arr) {
     cout << elem << ", ";
   }
   cout << endl;
